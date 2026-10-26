@@ -1,10 +1,10 @@
-# Viessmann OpenV für IP-Symcon
+# Viessmann auslessen für IP-Symcon
 
 Eigenständiges PHP-Modul für Lesen und Schreiben über eine serielle Optolink-Anbindung mit KW-Protokoll. Keine Viessmann-Cloud und kein vcontrold erforderlich. Die Registervorgaben stammen aus den bereitgestellten Screenshots; ihre Bedeutung und Schreibbarkeit sind gerätespezifisch und noch nicht an einer Anlage geprüft.
 
 ## Installation
 
-Dieses Repository als Modulbibliothek in IP-Symcon hinzufügen, eine Instanz **Viessmann OpenV** erstellen und den übergeordneten seriellen Port auf den Optolink-Adapter einstellen. Das Modul fordert 4800 Baud, 8 Datenbits, gerade Parität und 2 Stoppbits an. Eine reine PHP-CLI kann das Modul nur mit den Test-Doubles ausführen; im Betrieb wird IP-Symcon benötigt.
+Dieses Repository als Modulbibliothek in IP-Symcon hinzufügen, eine Instanz **Viessmann auslessen** erstellen und den übergeordneten seriellen Port auf den Optolink-Adapter einstellen. Das Modul fordert 4800 Baud, 8 Datenbits, gerade Parität und 2 Stoppbits an. Eine reine PHP-CLI kann das Modul nur mit den Test-Doubles ausführen; im Betrieb wird IP-Symcon benötigt.
 
 Die 18 Register werden bei neuen Instanzen aus `ViessmannOpenV/registers.json` vorbelegt. Änderungen erfolgen danach in der Instanzkonfiguration. Vorhandene Instanzkonfigurationen werden durch Änderungen dieser JSON-Datei nicht überschrieben.
 
