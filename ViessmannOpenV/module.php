@@ -32,7 +32,7 @@ class ViessmannOpenV extends IPSModule
         $this->SetBuffer('Queue', '[]');
         $this->SetBuffer('Active', '');
         try {
-            if ($this->ReadPropertyInteger('Interval') < 1 || $this->ReadPropertyInteger('Timeout') < 1) throw new InvalidArgumentException('Interval und Timeout müssen positiv sein');
+            if ($this->ReadPropertyInteger('Interval') < 0 || $this->ReadPropertyInteger('Timeout') < 1) throw new InvalidArgumentException('Abfrageintervall muss mindestens 0 sein; Timeout muss positiv sein');
             $this->registerProfiles();
             foreach ($this->registers() as $r) {
                 $method = ['bool'=>'RegisterVariableBoolean','int'=>'RegisterVariableInteger','float'=>'RegisterVariableFloat','string'=>'RegisterVariableString'][$r['Typ']];

@@ -13,6 +13,7 @@ function IPS_SetVariableProfileIcon(...$a) {}
 function IPS_SetVariableProfileAssociation(...$a) {}
 class IPSModule {
     public $InstanceID = 1;
+    public $timers = [];
     public $registeredProfiles = [];
     public $props = [], $buffers = [], $values = [], $sent = [], $actions = [], $status;
     function Create() {} function ApplyChanges() {}
@@ -20,7 +21,7 @@ class IPSModule {
     function RegisterPropertyString($k,$v) { $this->props[$k]=$v; }
     function ReadPropertyInteger($k) { return $this->props[$k]; }
     function ReadPropertyString($k) { return $this->props[$k]; }
-    function RegisterTimer(...$a) {} function ConnectParent(...$a) {} function SetTimerInterval(...$a) {}
+    function RegisterTimer(...$a) {} function ConnectParent(...$a) {} function SetTimerInterval($name,$ms) { $this->timers[$name]=$ms; }
     function SetBuffer($k,$v) { $this->buffers[$k]=$v; }
     function GetBuffer($k) { return $this->buffers[$k] ?? ''; }
     function SetStatus($v) { $this->status=$v; }
@@ -94,4 +95,16 @@ $a=json_decode($m->GetBuffer('Active'),true); $a['since']-=20; $m->SetBuffer('Ac
 $m->CheckTimeout(); eq($m->status,201); eq($m->GetBuffer('Active'),''); eq($m->GetBuffer('Queue'),'[]');
 $m->SyncData(); $m->SyncData(); eq(count(json_decode($m->GetBuffer('Queue'),true)),18);
 receive($m,"\x05"); receive($m,"\x01\x02\x03\x04"); eq($m->status,201);
+$off = new ViessmannOpenV(); $off->Create(); $off->props['Interval']=0; $off->ApplyChanges();
+eq($off->status,104);
+eq($off->timers['Poll'],0);
+eq($off->timers['Watchdog'],1000);
+$off->RequestAction('raumsolltemp',20);
+receive($off,"\x05");
+eq(bin2hex($off->sent[0]),'01f4200002c800');
+$off->ApplyChanges(); $off->SyncData();
+eq(count(json_decode($off->GetBuffer('Queue'),true)),18);
+$off->props['Interval']=10; $off->ApplyChanges(); eq($off->timers['Poll'],10000);
+$off->props['Interval']=-1; $off->ApplyChanges(); eq($off->status,201); eq($off->timers['Poll'],0);
+$off->props['Interval']=0; $off->props['Timeout']=0; $off->ApplyChanges(); eq($off->status,201);
 echo "$count checks passed\n";

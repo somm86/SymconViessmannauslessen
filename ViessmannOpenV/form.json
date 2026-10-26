@@ -3,7 +3,8 @@
     {
       "type": "NumberSpinner",
       "name": "Interval",
-      "caption": "Abfrageintervall (Sekunden)"
+      "caption": "Abfrageintervall (Sekunden, 0 = automatisch aus)",
+      "minimum": 0
     },
     {
       "type": "NumberSpinner",

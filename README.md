@@ -10,7 +10,7 @@ Die 18 Register werden bei neuen Instanzen aus `ViessmannOpenV/registers.json` v
 
 ## Lesen und Schreiben
 
-Standardabfrage: alle zehn Sekunden. `VIO_SyncData($instanceID)` stellt eine neue Leserunde ein, sofern keine Aufträge offen sind. Einträge können mit `Typ` = `bool`, `int`, `float` oder `string` konfiguriert werden. Unterstützte Konverter: leer, `2`, `10`, `1000`, `3600` (Division beim Lesen), `X10`, `Temperature10`, `Temperature100`, `HexValue`. `signed` aktiviert vorzeichenbehaftete Zweierkomplementwerte; die Temperature-Konverter sind immer vorzeichenbehaftet. Vorzeichen sind in den Screenshot-Vorgaben nicht angegeben und daher standardmäßig deaktiviert. Insbesondere bei negativen Außentemperaturen die tatsächliche Registerkodierung prüfen und passend konfigurieren.
+Standardabfrage: alle zehn Sekunden. Abfrageintervall `0` deaktiviert die automatische Abfrage; manuelles Lesen und Schreiben bleiben aktiv. Das Antworttimeout muss weiterhin größer als null sein. `VIO_SyncData($instanceID)` stellt eine neue Leserunde ein, sofern keine Aufträge offen sind. Einträge können mit `Typ` = `bool`, `int`, `float` oder `string` konfiguriert werden. Unterstützte Konverter: leer, `2`, `10`, `1000`, `3600` (Division beim Lesen), `X10`, `Temperature10`, `Temperature100`, `HexValue`. `signed` aktiviert vorzeichenbehaftete Zweierkomplementwerte; die Temperature-Konverter sind immer vorzeichenbehaftet. Vorzeichen sind in den Screenshot-Vorgaben nicht angegeben und daher standardmäßig deaktiviert. Insbesondere bei negativen Außentemperaturen die tatsächliche Registerkodierung prüfen und passend konfigurieren.
 
 Vier Register sind entsprechend den Screenshots schreibbar:
 
