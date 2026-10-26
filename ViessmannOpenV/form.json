@@ -80,6 +80,15 @@
             "type": "CheckBox"
           },
           "label": "Vorzeichen"
+        },
+        {
+          "name": "Profile",
+          "label": "Profil (leer = automatisch)",
+          "width": "200px",
+          "add": "",
+          "edit": {
+            "type": "ValidationTextBox"
+          }
         }
       ]
     }

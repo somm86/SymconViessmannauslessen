@@ -3,8 +3,17 @@ error_reporting(E_ALL);
 set_error_handler(function ($severity,$message,$file,$line) { throw new ErrorException($message,0,$severity,$file,$line); });
 function IPS_SemaphoreEnter($name,$timeout) { return true; }
 function IPS_SemaphoreLeave($name) {}
+$profiles = ['~Switch'=>['ProfileType'=>0]];
+function IPS_VariableProfileExists($n) { global $profiles; return isset($profiles[$n]); }
+function IPS_CreateVariableProfile($n,$t) { global $profiles; $profiles[$n]=['ProfileType'=>$t]; }
+function IPS_GetVariableProfile($n) { global $profiles; return $profiles[$n]; }
+function IPS_SetVariableProfileText($n,$p,$s) { global $profiles; $profiles[$n]['Suffix']=$s; }
+function IPS_SetVariableProfileDigits($n,$d) { global $profiles; $profiles[$n]['Digits']=$d; }
+function IPS_SetVariableProfileIcon(...$a) {}
+function IPS_SetVariableProfileAssociation(...$a) {}
 class IPSModule {
     public $InstanceID = 1;
+    public $registeredProfiles = [];
     public $props = [], $buffers = [], $values = [], $sent = [], $actions = [], $status;
     function Create() {} function ApplyChanges() {}
     function RegisterPropertyInteger($k,$v) { $this->props[$k]=$v; }
@@ -16,8 +25,8 @@ class IPSModule {
     function GetBuffer($k) { return $this->buffers[$k] ?? ''; }
     function SetStatus($v) { $this->status=$v; }
     function SendDebug(...$a) {}
-    function RegisterVariableBoolean(...$a) {} function RegisterVariableInteger(...$a) {}
-    function RegisterVariableFloat(...$a) {} function RegisterVariableString(...$a) {}
+    function RegisterVariableBoolean($k,$n,$p) { $this->registeredProfiles[$k]=$p; } function RegisterVariableInteger($k,$n,$p) { $this->registeredProfiles[$k]=$p; }
+    function RegisterVariableFloat($k,$n,$p) { $this->registeredProfiles[$k]=$p; } function RegisterVariableString($k,$n,$p) { $this->registeredProfiles[$k]=$p; }
     function EnableAction($k) { $this->actions[$k]=true; }
     function DisableAction($k) { $this->actions[$k]=false; }
     function SetValue($k,$v) { $this->values[$k]=$v; }
@@ -51,6 +60,15 @@ $r=$rows[0]; $r['signed']=true;
 eq(OpenVCodec::decode($r,hex2bin('c9ffff')),-5.5);
 $m=new ViessmannOpenV(); $m->Create(); $m->ApplyChanges();
 eq($m->status,104);
+eq($m->registeredProfiles['raumsolltemp'],'VIO.Temperature');
+eq($m->registeredProfiles['Warmwasser'],'VIO.Temperature');
+eq($m->registeredProfiles['Heizkreispumpe'],'~Switch');
+eq($m->registeredProfiles['VentilHeizenWarmwasser'],'VIO.State');
+eq($m->registeredProfiles['FilterRestzeit'],'VIO.RawFloat');
+eq($m->registeredProfiles['BetriebsartHeizung'],'');
+eq($profiles['VIO.Temperature']['Suffix'],' °C');
+eq($profiles['VIO.Temperature']['Digits'],1);
+
 eq($m->actions['raumsolltemp'],true);
 eq($m->actions['Ablufttemperatur'],false);
 rejects(fn()=>$m->RequestAction('Ablufttemperatur',20));

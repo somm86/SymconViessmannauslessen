@@ -56,3 +56,15 @@ docker run --rm -v "$PWD:/app" -w /app php:8.2-cli php tests/run.php
 ```
 
 Die Tests simulieren IP-Symcon und die serielle Gegenstelle: Little-Endian-Telegramme, Skalierung, negative Werte, Wertebereich, Hexlängen, Boolean-Null, Schreibsperren, Bestätigung, fragmentiertes Rücklesen, ungültige Antworten, Timeout und Vermeidung doppelter Abfragerunden. Sie ersetzen keinen Integrationstest mit der Anlage.
+
+## Variablenprofile
+
+Beim Übernehmen der Instanzkonfiguration werden Profile automatisch zugewiesen, auch für bereits vorhandene Registerlisten ohne `Profile`-Feld:
+
+- Die zehn Temperaturwerte einschließlich Solltemperaturen erhalten `VIO.Temperature`: °C mit einer Nachkommastelle.
+- Pumpen und Verdichter erhalten `~Switch` (Aus/Ein).
+- Das Umschaltventil erhält `VIO.State` (0/1). Die Zuordnung der Zustände zu Heizen/Warmwasser ist noch nicht belegt.
+- Sonstige Zahlen erhalten `VIO.RawFloat` beziehungsweise `VIO.RawInteger` ohne Einheit und Nachkommastellen. Die Einheit von FilterRestzeit und VolumenstromZuluft sowie die Zuordnung der Lüftungsbetriebsarten müssen anhand der Regelung bestätigt werden.
+- Die Heizungsbetriebsart bleibt ein Hexstring ohne Auswahlprofil.
+
+In der Spalte **Profil (leer = automatisch)** kann ein vorhandenes, zum Variablentyp passendes IP-Symcon-Profil angegeben werden, etwa nach Bestätigung der Einheiten und Betriebsarten. Die Profile dienen der Anzeige; Registerskalierung und Bytekodierung werden dadurch nicht geändert. Bereits vorhandene gleichnamige Profile werden nicht überschrieben. Individuelle benutzerdefinierte Variablenprofile in IP-Symcon können die Standardanzeige weiterhin übersteuern.

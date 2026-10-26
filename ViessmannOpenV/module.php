@@ -33,15 +33,52 @@ class ViessmannOpenV extends IPSModule
         $this->SetBuffer('Active', '');
         try {
             if ($this->ReadPropertyInteger('Interval') < 1 || $this->ReadPropertyInteger('Timeout') < 1) throw new InvalidArgumentException('Interval und Timeout müssen positiv sein');
+            $this->registerProfiles();
             foreach ($this->registers() as $r) {
                 $method = ['bool'=>'RegisterVariableBoolean','int'=>'RegisterVariableInteger','float'=>'RegisterVariableFloat','string'=>'RegisterVariableString'][$r['Typ']];
-                $this->$method($r['Name'], $r['Name'], '');
+                $this->$method($r['Name'], $r['Name'], $this->profileFor($r));
                 if ($r['only_read']) $this->DisableAction($r['Name']); else $this->EnableAction($r['Name']);
             }
             $this->SetTimerInterval('Poll', 1000*$this->ReadPropertyInteger('Interval'));
             $this->SetTimerInterval('Watchdog', 1000);
             $this->SetStatus(104);
         } catch (Throwable $e) { $this->fail($e->getMessage()); }
+    }
+    private function registerProfiles(): void
+    {
+        foreach (['VIO.Temperature'=>[2, ' °C', 1], 'VIO.RawFloat'=>[2, '', 0], 'VIO.RawInteger'=>[1, '', 0]] as $name=>$definition) {
+            if (!IPS_VariableProfileExists($name)) {
+                IPS_CreateVariableProfile($name, $definition[0]);
+                IPS_SetVariableProfileText($name, '', $definition[1]);
+                IPS_SetVariableProfileDigits($name, $definition[2]);
+                if ($name === 'VIO.Temperature') IPS_SetVariableProfileIcon($name, 'Temperature');
+            }
+        }
+        if (!IPS_VariableProfileExists('VIO.State')) {
+            IPS_CreateVariableProfile('VIO.State', 0);
+            IPS_SetVariableProfileAssociation('VIO.State', 0, '0', '', -1);
+            IPS_SetVariableProfileAssociation('VIO.State', 1, '1', '', -1);
+        }
+    }
+    private function profileFor(array $r): string
+    {
+        $profile = trim((string)($r['Profile'] ?? ''));
+        if ($profile === '') {
+            $temperatures = ['Ablufttemperatur','Fortlufttemperatur','luftungaussentemperatur',
+                'raumsolltemp','RuecklauftemperaturSekundaer','VorlauftemperaturPrimaerquelle',
+                'VorlauftemperaturSekundaer','Warmwasser','warmwassersolltemp','Zulufttemperatur'];
+            if ($r['Typ'] === 'float' && in_array($r['Name'], $temperatures, true)) $profile = 'VIO.Temperature';
+            elseif ($r['Typ'] === 'bool') $profile = $r['Name'] === 'VentilHeizenWarmwasser' ? 'VIO.State' : '~Switch';
+            elseif ($r['Typ'] === 'float') $profile = 'VIO.RawFloat';
+            elseif ($r['Typ'] === 'int') $profile = 'VIO.RawInteger';
+        }
+        if ($profile !== '') {
+            $type = ['bool'=>0,'int'=>1,'float'=>2,'string'=>3][$r['Typ']];
+            if (!IPS_VariableProfileExists($profile) || IPS_GetVariableProfile($profile)['ProfileType'] !== $type) {
+                throw new InvalidArgumentException('Profil fehlt oder hat falschen Typ: '.$profile);
+            }
+        }
+        return $profile;
     }
     private function locked(callable $f): void
     {
