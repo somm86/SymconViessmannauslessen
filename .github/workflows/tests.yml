@@ -1,0 +1,11 @@
+name: PHP tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: php:8.2-cli
+    steps:
+      - uses: actions/checkout@v4
+      - run: php -l ViessmannOpenV/module.php
+      - run: php -l ViessmannOpenV/Codec.php
+      - run: php tests/run.php

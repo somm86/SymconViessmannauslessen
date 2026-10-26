@@ -1,0 +1,17 @@
+{
+  "id": "{14D892F5-16E3-4925-AE2F-9130FA84795C}",
+  "name": "ViessmannOpenV",
+  "type": 3,
+  "vendor": "Viessmann",
+  "aliases": [
+    "Viessmann OpenV"
+  ],
+  "parentRequirements": [
+    "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"
+  ],
+  "childRequirements": [],
+  "implemented": [
+    "{018EF6B5-AB94-40C6-AA53-46943E824ACF}"
+  ],
+  "prefix": "VIO"
+}

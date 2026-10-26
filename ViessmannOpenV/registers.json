@@ -1,0 +1,164 @@
+[
+  {
+    "Name": "Ablufttemperatur",
+    "HexStamp": "0A02",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "BetriebsartHeizung",
+    "HexStamp": "B000",
+    "Typ": "string",
+    "length": 2,
+    "Convert": "HexValue",
+    "only_read": false,
+    "signed": false
+  },
+  {
+    "Name": "BetriebsartLueftung",
+    "HexStamp": "B005",
+    "Typ": "float",
+    "length": 2,
+    "Convert": "",
+    "only_read": false,
+    "signed": false
+  },
+  {
+    "Name": "FilterRestzeit",
+    "HexStamp": "0A0E",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "Fortlufttemperatur",
+    "HexStamp": "0A03",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "Heizkreispumpe",
+    "HexStamp": "048D",
+    "Typ": "bool",
+    "length": 1,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "luftungaussentemperatur",
+    "HexStamp": "0A00",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "Primaerpumpe",
+    "HexStamp": "0482",
+    "Typ": "bool",
+    "length": 1,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "raumsolltemp",
+    "HexStamp": "2000",
+    "Typ": "float",
+    "length": 2,
+    "Convert": "10",
+    "only_read": false,
+    "signed": false
+  },
+  {
+    "Name": "RuecklauftemperaturSekundaer",
+    "HexStamp": "01C6",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "VentilHeizenWarmwasser",
+    "HexStamp": "0494",
+    "Typ": "bool",
+    "length": 1,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "VerdichterBetrieb",
+    "HexStamp": "0480",
+    "Typ": "bool",
+    "length": 1,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "VolumenstromZuluft",
+    "HexStamp": "0A04",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "VorlauftemperaturPrimaerquelle",
+    "HexStamp": "01C3",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "VorlauftemperaturSekundaer",
+    "HexStamp": "01C5",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "Warmwasser",
+    "HexStamp": "010D",
+    "Typ": "float",
+    "length": 2,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  },
+  {
+    "Name": "warmwassersolltemp",
+    "HexStamp": "6000",
+    "Typ": "float",
+    "length": 2,
+    "Convert": "10",
+    "only_read": false,
+    "signed": false
+  },
+  {
+    "Name": "Zulufttemperatur",
+    "HexStamp": "0A01",
+    "Typ": "float",
+    "length": 3,
+    "Convert": "10",
+    "only_read": true,
+    "signed": false
+  }
+]

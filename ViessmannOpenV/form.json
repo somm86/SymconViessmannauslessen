@@ -1,0 +1,111 @@
+{
+  "elements": [
+    {
+      "type": "NumberSpinner",
+      "name": "Interval",
+      "caption": "Abfrageintervall (Sekunden)"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "Timeout",
+      "caption": "Antworttimeout (Sekunden)"
+    },
+    {
+      "type": "List",
+      "name": "VarList",
+      "caption": "Register",
+      "rowCount": 18,
+      "add": true,
+      "delete": true,
+      "columns": [
+        {
+          "name": "Name",
+          "width": "150px",
+          "add": "",
+          "edit": {
+            "type": "ValidationTextBox"
+          },
+          "label": "Ident"
+        },
+        {
+          "name": "HexStamp",
+          "width": "150px",
+          "add": "",
+          "edit": {
+            "type": "ValidationTextBox"
+          },
+          "label": "Register"
+        },
+        {
+          "name": "Typ",
+          "width": "150px",
+          "add": "float",
+          "edit": {
+            "type": "ValidationTextBox"
+          },
+          "label": "Typ"
+        },
+        {
+          "name": "length",
+          "width": "150px",
+          "add": 2,
+          "edit": {
+            "type": "NumberSpinner"
+          },
+          "label": "Bytes"
+        },
+        {
+          "name": "Convert",
+          "width": "150px",
+          "add": "",
+          "edit": {
+            "type": "ValidationTextBox"
+          },
+          "label": "Konverter"
+        },
+        {
+          "name": "only_read",
+          "width": "150px",
+          "add": true,
+          "edit": {
+            "type": "CheckBox"
+          },
+          "label": "Nur Lesen"
+        },
+        {
+          "name": "signed",
+          "width": "150px",
+          "add": false,
+          "edit": {
+            "type": "CheckBox"
+          },
+          "label": "Vorzeichen"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "caption": "Jetzt lesen",
+      "onClick": "VIO_SyncData($id);"
+    }
+  ],
+  "status": [
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "Antwort empfangen"
+    },
+    {
+      "code": 104,
+      "icon": "inactive",
+      "caption": "Warte auf Kommunikation"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Konfiguration oder Kommunikation fehlerhaft"
+    }
+  ]
+}
